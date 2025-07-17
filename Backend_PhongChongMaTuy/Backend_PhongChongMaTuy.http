@@ -1,0 +1,6 @@
+@Backend_PhongChongMaTuy_HostAddress = http://localhost:5029
+
+GET {{Backend_PhongChongMaTuy_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

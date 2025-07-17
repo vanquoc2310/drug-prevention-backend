@@ -1,0 +1,35 @@
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sqlserver
+    environment:
+      SA_PASSWORD: "12345"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlvolume:/var/opt/mssql
+
+  backend:
+    build:
+      context: .
+      dockerfile: Backend_PhongChongMaTuy/Dockerfile
+    container_name: backend_phongchong
+    ports:
+      - "7076:80"
+    depends_on:
+      - sqlserver
+    environment:
+      - ConnectionStrings__DefaultConnectionStringDB=Server=sqlserver;Database=DrugPreventionDB;User=sa;Password=12345;TrustServerCertificate=true
+      - Jwt__Key=7GduOH-ipMMty0gifCDzDwkYdoWa8eHH2Uxw2ORiLQuuFWq3-JgkgdYPOpeaQ7LY1E-DVrBzfAf3P2zMaSiKVOnNw7RDSb2ntXd3pdFvg-8tnil2LTeTdigr66aB-sPKmbCsnFeQjHx2gMX5F-s1dTfkC7JPq-9f8RZ2Zgfgoyplx02aWun7Liz4-PPiNVWwL1Q0Z8GMffzW6BVKL2B8pP2ImIJraOKCQCwt8hySox5Weh6kDfpRmf6AeDsr0sAa0e3-JyFe490FmJ7qm0slnnR7CznIuBNItZaR2EEPuel-34pOxtlkVK8Lqurv5d8D3gVIWSzeZI2tMzhgjsFShA--
+      - Jwt__Issuer=DrugPrevention
+      - Jwt__Audience=DrugPreventionUsers
+      - Email__From=thu509932@gmail.com
+      - Email__Smtp=smtp.gmail.com
+      - Email__Port=587
+      - Email__Username=thu509932@gmail.com
+      - Email__Password=gnph twvu phfu ohki
+
+volumes:
+  sqlvolume:
